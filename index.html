@@ -1,65 +1,188 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <title>空间智字-字创美好影视</title>
     <meta charset="UTF-8">
-    <meta id="viewport" name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <link rel="shortcut icon" href="https://link-1252777009.cos-website.ap-beijing.myqcloud.com/sub/favicon.ico" />
-    
-    <!-- 改进的安全控制 -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const iframe = document.getElementById('contentFrame');
-            
-            // 跨域iframe无法直接控制其内部事件，这里仅控制外层页面
-            document.addEventListener('keydown', function(e) {
-                // 禁止F12
-                if (e.keyCode === 123) {
-                    e.preventDefault();
-                    return false;
-                }
-                
-                // 禁止Ctrl+S
-                if ((e.ctrlKey || e.metaKey) && e.keyCode === 83) {
-                    e.preventDefault();
-                    return false;
-                }
-            });
-            
-            // 优化的右键菜单控制
-            document.addEventListener('contextmenu', function(e) {
-                // 只在非输入区域禁用右键
-                if (!e.target.closest('input, textarea')) {
-                    e.preventDefault();
-                    return false;
-                }
-            });
-            
-            // 处理iframe加载错误
-            iframe.addEventListener('error', function() {
-                alert('加载失败，请检查链接是否有效');
-            });
-        });
-    </script>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>空间智字-字创美好影视</title>
     <style>
-        html, body {
-            width: 100%;
-            height: 100%;
-            padding: 0;
+        body, html {
             margin: 0;
+            padding: 0;
+            height: 100%;
             overflow: hidden;
-            font-family: Arial, sans-serif;
         }
-        
-        iframe {
-            border: none;
+        .container {
+            position: relative;
             width: 100%;
             height: 100%;
+        }
+        #resumeFrame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .error-message {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
     </style>
 </head>
 <body>
-    <iframe id="contentFrame" src="https://link-1252777009.cos-website.ap-beijing.myqcloud.com/sub/index.html"></iframe>
+    <div class="container">
+        <iframe id="resumeFrame" src="https://link-1252777009.cos-website.ap-beijing.myqcloud.com/sub/index.html" onload="handleLoad()" onerror="handleError()"></iframe>
+        <div class="error-message" id="errorMessage">
+            <h2>抱歉，网页载入失败</h2>
+            <p>请检查网络连接或稍后再试</p>
+            <button onclick="retryLoad()">重试</button>
+        </div>
+    </div>
+
+    <script>
+        // 配置项：可自定义开启/关闭各项禁止功能
+        const securityConfig = {
+            disableRightClick: true,    // 禁止右键
+            disableSave: true,          // 禁止Ctrl+S
+            disablePrint: true,         // 禁止Ctrl+P
+            disableViewSource: true,    // 禁止Ctrl+U
+            disableCopy: false,          // 禁止Ctrl+C
+            disablePaste: true,         // 禁止Ctrl+V
+            disableSelectAll: true,     // 禁止Ctrl+A
+            disableDevTools: true,      // 禁止开发者工具
+            disableKeyboard: true,      // 禁止键盘快捷键
+            disableDrag: true,          // 禁止拖拽
+            disableSelect: false        // 禁止选中文本
+        };
+
+        // 初始化安全限制
+        function initSecurityRestrictions() {
+            // 禁止右键菜单
+            if (securityConfig.disableRightClick) {
+                document.addEventListener('contextmenu', function(e) {
+                    e.preventDefault();
+                });
+            }
+
+            // 禁止选中文本
+            if (securityConfig.disableSelect) {
+                document.body.style.userSelect = 'none';
+                document.body.style.webkitUserSelect = 'none';
+            }
+
+            // 禁止拖拽
+            if (securityConfig.disableDrag) {
+                document.addEventListener('dragstart', function(e) {
+                    e.preventDefault();
+                });
+            }
+
+            // 禁止键盘快捷键
+            if (securityConfig.disableKeyboard) {
+                document.addEventListener('keydown', function(e) {
+                    // 禁止 Ctrl+S (保存)
+                    if (securityConfig.disableSave && (e.ctrlKey || e.metaKey) && e.key === 's') {
+                        e.preventDefault();
+                        return false;
+                    }
+                    
+                    // 禁止 Ctrl+P (打印)
+                    if (securityConfig.disablePrint && (e.ctrlKey || e.metaKey) && e.key === 'p') {
+                        e.preventDefault();
+                        return false;
+                    }
+                    
+                    // 禁止 Ctrl+U (查看源代码)
+                    if (securityConfig.disableViewSource && (e.ctrlKey || e.metaKey) && e.key === 'u') {
+                        e.preventDefault();
+                        return false;
+                    }
+                    
+                    // 禁止 Ctrl+C (复制)
+                    if (securityConfig.disableCopy && (e.ctrlKey || e.metaKey) && e.key === 'c') {
+                        e.preventDefault();
+                        return false;
+                    }
+                    
+                    // 禁止 Ctrl+V (粘贴)
+                    if (securityConfig.disablePaste && (e.ctrlKey || e.metaKey) && e.key === 'v') {
+                        e.preventDefault();
+                        return false;
+                    }
+                    
+                    // 禁止 Ctrl+A (全选)
+                    if (securityConfig.disableSelectAll && (e.ctrlKey || e.metaKey) && e.key === 'a') {
+                        e.preventDefault();
+                        return false;
+                    }
+                    
+                    // 禁止开发者工具相关快捷键
+                    if (securityConfig.disableDevTools) {
+                        // 禁止 F12
+                        if (e.key === 'F12') {
+                            e.preventDefault();
+                            return false;
+                        }
+                        
+                        // 禁止 Ctrl+Shift+I
+                        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'i') {
+                            e.preventDefault();
+                            return false;
+                        }
+                        
+                        // 禁止 Ctrl+Shift+J
+                        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'j') {
+                            e.preventDefault();
+                            return false;
+                        }
+                        
+                        // 禁止 Ctrl+Shift+C
+                        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'c') {
+                            e.preventDefault();
+                            return false;
+                        }
+                    }
+                });
+            }
+        }
+
+        // 页面加载完成后初始化安全限制
+        document.addEventListener('DOMContentLoaded', function() {
+            initSecurityRestrictions();
+        });
+
+        // 监听页面刷新事件，同步刷新iframe
+        window.addEventListener('beforeunload', function() {
+            const resumeFrame = document.getElementById('resumeFrame');
+            if (resumeFrame) {
+                resumeFrame.src = resumeFrame.src;
+            }
+        });
+
+        function handleLoad() {
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        function handleError() {
+            document.getElementById('resumeFrame').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'block';
+        }
+
+        function retryLoad() {
+            const resumeFrame = document.getElementById('resumeFrame');
+            resumeFrame.style.display = 'block';
+            document.getElementById('errorMessage').style.display = 'none';
+            resumeFrame.src = resumeFrame.src;
+        }
+    </script>
 </body>
 </html>
