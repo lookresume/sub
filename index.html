@@ -1,201 +1,810 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>语宙-专业音视频制作公司</title>
+    <title>字幕工坊 - 专业视频字幕制作服务</title>
+    <base href="">
+    <meta name="keywords"
+        content="字幕制作,字幕翻译,视频字幕,字幕服务,SRT字幕,ASS字幕,VTT字幕,CC字幕,时间轴调整,字幕校对,视频压制,影视字幕,课程字幕,纪录片字幕,动画字幕,网剧字幕">
+    <meta name="description"
+        content="字幕工坊提供专业的字幕翻译与制作服务，支持中英互译、时间轴调整、格式转换(SRT、ASS、VTT等)、CC字幕制作、校对编辑、内容压制等服务，适用于电影、电视剧、网剧、课程、纪录片、动画等多种内容类型。">
+    <link rel="icon" href="favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/plyr.css">
+    <link rel="stylesheet" href="css/main.css">
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
+        /* 仅保留必须的动画、暗夜模式变量、模态框样式等 */
+        :root {
+            --primary: #165DFF;
+            --primary-light: #E8F3FF;
+            --secondary: #FF7D00;
+            --dark: #1D2939;
+            --light: #F9FAFB;
+            --gray: #667085;
+            --gray-light: #E4E7EC;
+            --success: #039855;
+            --danger: #D92D20;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s ease;
         }
-        .container {
-            position: relative;
-            width: 100%;
-            height: 100%;
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        #resumeFrame {
-            position: absolute;
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-300 {
+            animation-delay: 0.3s;
+        }
+
+        .delay-400 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-500 {
+            animation-delay: 0.5s;
+        }
+
+        body.dark-mode {
+            --dark: #F9FAFB;
+            --light: #1D2939;
+            --gray: #94A3B8;
+            --gray-light: #344054;
+        }
+
+        /* 模态框样式（必须保留） */
+        .modal {
+            display: none;
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
         }
-        .error-message {
-            display: none;
+
+        .modal-content {
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            border-radius: 12px;
+            padding: 30px;
+            position: relative;
+            box-shadow: var(--shadow-hover);
+            transform: translateY(0);
+            animation: slideIn 0.3s ease;
+            background-color: white;
+            color: var(--dark);
+        }
+
+        .modal-body {
+            color: var(--dark);
+        }
+
+        .modal-close {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--dark);
+        }
+
+        body.dark-mode .modal-content {
+            background-color: #383838 !important;
+            color: #fff !important;
+        }
+
+        body.dark-mode .modal-body {
+            color: #fff !important;
+        }
+
+        body.dark-mode .modal-close {
+            color: #94A3B8 !important;
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <iframe
-            id="resumeFrame"
-            src="https://link-1252777009.cos-website.ap-beijing.myqcloud.com/sub/index.html"
-            onload="handleLoad()"
-            onerror="handleError()"
-            allowfullscreen
-            allow="fullscreen"
-        ></iframe>
-        <div class="error-message" id="errorMessage">
-            <h2>抱歉，网页载入失败</h2>
-            <p>请检查网络连接或稍后再试</p>
-            <button onclick="retryLoad()">重试</button>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <img src="favicon.svg" alt="字幕工坊" style="width: 28px; height: 28px;">
+                    <span>语宙</span>
+                </a>
+
+                <div class="nav-container">
+                    <div class="nav-links">
+                        <a href="#services">服务</a>
+                        <a href="#process">流程</a>
+                        <a href="#pricing">价格</a>
+                        <a href="#testimonials">客户评价</a>
+                        <a href="#faq">常见问题</a>
+                    </div>
+
+                    <div class="nav-cta">
+                        <a href="#contact" class="btn btn-secondary">联系我们</a>
+                    </div>
+                </div>
+
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="fade-in">让每一段文本 跨语言界限</h1>
+                <p class="fade-in delay-100" style="color: white; font-weight: bold;">见字如面 选择我们 搭载与时俱进的技术AI</p>
+                <div class="hero-buttons fade-in delay-200">
+                    <a href="#process" class="btn btn-secondary">了解流程</a>
+                    <a href="https://wj.qq.com/s2/14618241/d589/" target="_blank" class="btn btn-accent">问卷调查</a>
+                </div>
+            </div>
+            <!-- 半圆角框标签 -->
+            <div class="hero-tags">
+                <span class="hero-tag">电影</span>
+                <span class="hero-tag">课程</span>
+                <span class="hero-tag">电视</span>
+                <span class="hero-tag">纪录</span>
+                <span class="hero-tag">动画</span>
+                <span class="hero-tag">网剧</span>
+                <span class="hero-tag">软字幕</span>
+                <span class="hero-tag">硬字幕</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务特点 -->
+    <section id="services" class="section">
+        <div class="container">
+            <h2 class="section-title">我们的服务</h2>
+            <p class="section-subtitle">多种支持 适配解决</p>
+
+            <div class="features">
+                <div class="card feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3 class="feature-title">专业译制</h3>
+                    <p class="feature-desc">文语得体、术语准确</p>
+                </div>
+
+                <div class="card feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="feature-title">时间轴调整</h3>
+                    <p class="feature-desc">字画同步，提升观看体验</p>
+                </div>
+
+                <div class="card feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-import"></i>
+                    </div>
+                    <h3 class="feature-title">格式转换</h3>
+                    <p class="feature-desc">含SRT、ASS、VTT等多种格式</p>
+                </div>
+
+                <div class="card feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="feature-title">CC字幕</h3>
+                    <p class="feature-desc">内嵌视频，适用专业平台或需求</p>
+                </div>
+
+                <div class="card feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-align-justify"></i>
+                    </div>
+                    <h3 class="feature-title">校对编辑</h3>
+                    <p class="feature-desc">二次总校，确保内容准确</p>
+                </div>
+
+                <div class="card feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">内容制作</h3>
+                    <p class="feature-desc">制作、压制、分切、合成、修剪</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务流程 -->
+    <section id="process" class="section process">
+        <div class="container">
+            <h2 class="section-title">服务流程</h2>
+            <p class="section-subtitle">简单四步，立即开始</p>
+
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-content">
+                        <h3 class="step-title">提交需求</h3>
+                        <p class="step-desc">发送您的内容（如：音、视频），说明项目要求</p>
+                    </div>
+                    <div class="step-number">1</div>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-content">
+                        <h3 class="step-title">获取报价</h3>
+                        <p class="step-desc">根据您的内容/需求，提供详细报价范围（部分涉预付款）</p>
+                    </div>
+                    <div class="step-number">2</div>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-content">
+                        <h3 class="step-title">开始制作</h3>
+                        <p class="step-desc">团队分工，确保质量，符合您的要求</p>
+                    </div>
+                    <div class="step-number">3</div>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-content">
+                        <h3 class="step-title">交付修改</h3>
+                        <p class="step-desc">成品按时交付，提供免费修改服务，直到您完全满意为止</p>
+                    </div>
+                    <div class="step-number">4</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 客户案例 -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">客户案例</h2>
+            <p class="section-subtitle">有质有量 精彩无限</p>
+
+            <!-- 视频和文本容器 -->
+            <div class="case-study">
+                <!-- 视频区域 (70%) -->
+                <div class="case-video">
+                    <div class="card">
+                        <!-- Plyr播放器样式和脚本 -->
+                        <video id="example-player" controls poster="" class="plyr__video-embed" style="width: 100%;">
+                            <source
+                                src="https://workdrive.zohopublic.com.cn/external/d90a8e2049e0b81d7ddd89d7bf003cc88789cf2555d67d2a985ba8d7d1084329/download?directDownload=true"
+                                type="video/mp4">
+                            <track kind="subtitles" src="src/video/srcvideo/ZH.vtt" srclang="zh-CN" label="中文" default>
+                        </video>
+                    </div>
+                </div>
+
+                <!-- 文本区域 (30%) -->
+                <div class="case-info">
+                    <h3 style="font-size: 22px; margin-bottom: 15px; color: var(--dark);">参例：网剧</h3>
+                    <p style="color: var(--gray); line-height: 1.8; margin-bottom: 20px;">
+                        说明：本地化，企业二创出海类短剧；基于 srt 字幕原件、中间值遮罩处理、附属要求等，合成制作。
+                    </p>
+                    <div style="margin-top: 20px;">
+                        <a href="src/show/index.html" target="_blank" class="btn">查看更多案例</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 价格方案 -->
+    <section id="pricing" class="section">
+        <div class="container">
+            <h2 class="section-title">价格方案</h2>
+            <p class="section-subtitle">灵活的调整，提供高性价比服务</p>
+
+            <div class="pricing">
+                <div class="card pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">基础</h3>
+                        <p class="pricing-desc">适合个人、小型项目</p>
+                        <div class="pricing-price">¥9.9元/起</div>
+                        <div class="pricing-period">标准交付（1-7天）</div>
+                    </div>
+
+                    <div class="pricing-features">
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>中英互译</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>SRT格式字幕</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>时间轴调整</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card pricing-card popular">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">专业</h3>
+                        <p class="pricing-desc">适合企业和专业创作者</p>
+                        <div class="pricing-price">¥19.9元/起</div>
+                        <div class="pricing-period">快速交付（1-2天）</div>
+                    </div>
+
+                    <div class="pricing-features">
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>多种格式支持</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>时间轴调整</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>免费修改</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>优先客户支持</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>压缩/压制作</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">企业</h3>
+                        <p class="pricing-desc">适合大型机构和长期合作</p>
+                        <div class="pricing-price">协商</div>
+                        <div class="pricing-period">根需求定制</div>
+                    </div>
+
+                    <div class="pricing-features">
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>专属客户经理</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>定制化解决方案</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>批量处理折扣</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>小时级加急服务</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>无限次修改</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>拓展对接支持</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 支持更多 -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">支持更多</h2>
+            <p class="section-subtitle">多维度支持，支撑多样化场景</p>
+
+            <div class="more-support">
+                <div class="card support-card">
+                    <img src="img/edit.jpg" alt="编辑功能展示">
+                    <h3 class="feature-title" style="font-size: 24px; margin-bottom: 15px;">多维度编辑</h3>
+                    <p class="feature-desc" style="font-size: 16px; line-height: 1.7;">源件、校对、排版、封装、压制、编码；集行业主流创作工具
+                        多种兼容内容格式</p>
+                </div>
+
+                <div class="card support-card">
+                    <img src="img/4k.png" alt="4K分辨率支持">
+                    <h3 class="feature-title" style="font-size: 24px; margin-bottom: 15px;">高清格式适配</h3>
+                    <p class="feature-desc" style="font-size: 16px; line-height: 1.7;">
+                        完美支持4K及以上高清视频字幕制作，确保在各类显示设备上都能呈现清晰、精准的字幕效果。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 客户评价 -->
+    <section id="testimonials" class="section testimonials">
+        <div class="container">
+            <h2 class="section-title">客户评价</h2>
+            <p class="section-subtitle">以沉淀为基石，技术与需求，与时俱进</p>
+
+            <div class="testimonial-grid">
+                <div class="card testimonial-item">
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">服务非常专业，准确且符合文化习惯；我们的教学视频，配上他们制作的多语言字幕后，国际学员，数量明显增加。</p>
+                    <div class="testimonial-author">
+                        <img src="https://picsum.photos/id/1005/200/200" alt="李教授的头像" class="author-avatar">
+                        <div class="author-info">
+                            <h4>李教授</h4>
+                            <p>讲师</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card testimonial-item">
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">作为一家短视频制作公司，目前也在开拓海外市场，他们的服务，帮节省了很多时间，非常可靠。</p>
+                    <div class="testimonial-author">
+                        <img src="https://picsum.photos/id/1012/200/200" alt="张总监的头像" class="author-avatar">
+                        <div class="author-info">
+                            <h4>张总监</h4>
+                            <p>监制</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card testimonial-item">
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="testimonial-text">多方面，满足需求，课程制作很给力</p>
+                    <div class="testimonial-author">
+                        <img src="https://picsum.photos/id/1025/200/200" alt="王经理的头像" class="author-avatar">
+                        <div class="author-info">
+                            <h4>胜先生</h4>
+                            <p>市场部</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 语言支持 -->
+    <section class="section">
+        <div class="container languages">
+            <h2 class="section-title">支持语言</h2>
+            <p class="section-subtitle">跨域沟通，畅享全球</p>
+
+            <div class="language-grid">
+                <div class="language-item">
+                    <div class="language-flag">中</div>
+                    <span>中文</span>
+                </div>
+                <div class="language-item">
+                    <div class="language-flag">英</div>
+                    <span>英语</span>
+                </div>
+                <div class="language-item">
+                    <div class="language-flag">日</div>
+                    <span>日语</span>
+                </div>
+                <div class="language-item">
+                    <div class="language-flag">韩</div>
+                    <span>韩语</span>
+                </div>
+                <div class="language-item">
+                    <div class="language-flag">法</div>
+                    <span>法语</span>
+                </div>
+                <div class="language-item">
+                    <div class="language-flag">德</div>
+                    <span>德语</span>
+                </div>
+                <div class="language-item">
+                    <div class="language-flag">俄</div>
+                    <span>俄语</span>
+                </div>
+
+                <div class="language-item">
+                    <div class="language-flag">阿</div>
+                    <span>阿拉伯语</span>
+                </div>
+
+                <div class="language-item">
+                    <div class="language-flag" style="background-color: #039855;">
+                        <a href="src/code/index.html" target="_blank" style="color: white; text-decoration: none;">+</a>
+                    </div>
+                    <span>更多</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 常见问题 -->
+    <section id="faq" class="section">
+        <div class="container">
+            <h2 class="section-title">常见问题</h2>
+            <p class="section-subtitle">如您有其他疑问，欢迎联系我们</p>
+
+            <div class="faq">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        需要什么文件？
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        提供您需要处理得素材即可；支持常见的音/视频格式，如MP4、MOV、AVI、MP3、WAV；SRT、ASS、SSA、VTT等多种格式的编辑和转换。
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        项目有折扣吗？
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        是的，提供有竞争力的折扣。依项目规模和合作方式而定
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        可以加急处理吗？
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        可以
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        如何保证我的文件安全？
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        本地化操作和部署，项目完成后，会删除资源件，并提供保密协议选项，使得充分保护。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div id="beijing-time" style="color: #E4E7EC; margin: 10px 0;"></div>
+                    <p class="footer-desc">工作时间：周一至周五 9:00 - 18:00</p>
+
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-weixin"></i></a>
+                        <a href="mailto:andyou666@foxmail.com" class="social-link"><i class="fas fa-envelope"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-qq"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="footer-title">关于我们</h3>
+                    <div class="footer-links">
+                        <a href="#" id="aboutBtn" class="footer-link">团队简介</a>
+                        <a href="#" class="footer-link">云计划</a>
+                    </div>
+                </div>
+
+                <!-- 公司简介模态框 -->
+                <div id="aboutModal" class="modal">
+                    <div class="modal-content">
+                        <button id="closeModal" class="modal-close">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <div class="modal-body">
+                            <p style="line-height: 2em;">点点星光，不问赶路人…</p>
+                            <p style="text-indent: 2em; line-height: 2em;">
+                                [字幕组]源始于2018年后旬，中英双语；昼夜中，以经验沉淀为基石；在面对传统行业和不同领域，包括但不限于：影视、电影、电视、课程、纪录、动画、网剧等多元内容体裁，尊重版权保护与保密原则；在创作和开发中，助实现本土化落地。
+                            </p>
+                            <p style="text-indent: 2em; line-height: 2em;">
+                                在自领域深耕，细分专注化外；技术脚步、需求，与时俱进，优化工作流，聚时代行业主流创作平台/工具（如Intel高端显卡，解决软硬件加速、转码AV1），随不断进取，铩羽中整思，奠定夯实；现已构建全流程闭环服务方案，并提供部分，代运营支持。
+                            </p>
+                            <p style="text-indent: 2em; line-height: 2em;">目前合作方/项目，主在:
+                                北京（主涉影视进出口等）；在差异化中，实现千万级交付，降本增效，共赢互联，互效协同。</p>
+                            <p style="text-indent: 2em; line-height: 2em;">于此，致敬；感谢贵司或您，考虑和选择！</p>
+                            <p class="text-right text-muted"
+                                style="text-align: right; color: var(--gray); margin-top: 20px;">提示:点击框外 或 顶部X退出</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="footer-title">帮助中心</h3>
+                    <div class="footer-links">
+                        <a href="src/price/index.html" target="_blank" class="footer-link">参考价格</a>
+                        <a href="https://www.kdocs.cn/l/ckKhGQXJcXmu" target="_blank" class="footer-link">制作规范</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-links">
+                    <a href="#" class="footer-bottom-link">隐私政策</a>
+                    <a href="#" class="footer-bottom-link">服务条款</a>
+                    <a href="#" class="footer-bottom-link">网站地图</a>
+                </div>
+
+                <div class="copyright">
+                    &copy; 2018-至今 版权所有 |
+                    <a href="https://beian.miit.gov.cn" target="_blank" style="color: #E4E7EC; text-decoration: none;">
+                        京ICP备20250916号
+                    </a>
+                    <p style="margin: 5px 0 0 0; font-size: 14px;">本网站由<a
+                            href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank">
+                            <img src="img/upyun_icon4.png" style="vertical-align: middle; width: 30px; height: 30px;" />
+                        </a>提供CDN加速/云存储服务</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 联系我们模态框 -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content" style="width: 350px; padding: 25px;">
+            <button id="closeContactModal" class="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-body" style="text-align: center; padding: 10px 0;">
+                <h3 style="margin-bottom: 20px; color: var(--dark);">联系我们</h3>
+                <img src="img/wx-code.png" alt="微信二维码"
+                    style="width: 180px; height: 180px; border-radius: 8px; box-shadow: var(--shadow); margin-bottom: 15px;">
+                <p style="color: var(--gray); margin-bottom: 5px; font-size: 16px;">微信-扫码</p>
+            </div>
         </div>
     </div>
 
-    <!-- 可选：在页面顶部增加提示 
-    <div style="position: absolute; top: 10px; left: 10px; z-index: 9999; background: #fffbe6; color: #333; padding: 8px 16px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); font-size: 15px;">
-        建议直接访问 <a href="index.html" style="color: #165DFF;">index.html</a> 获得最佳体验，iframe模式部分功能可能受限。
-    </div>-->
+    <!-- 悬浮按钮区域 -->
+    <div class="floating-buttons">
+        <div class="wechat-support">
+            <button class="floating-btn wechat-btn" id="wechatBtn" title="微信客服">
+                <i class="fab fa-weixin"></i>
+            </button>
+            <img src="img/wx-code.png" alt="微信二维码" class="wx-qrcode" id="wxQrcode" />
+            <div class="wechat-text" id="wxText">扫码-添加客户经理</div>
+        </div>
+        <!-- 可扩展其他悬浮按钮 -->
+        <button class="floating-btn" id="scrollTop" title="返回顶部" style="display:none;">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        <button class="floating-btn" id="themeToggle" title="暗夜模式">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
 
+    <script src="js/main.js"></script>
+    <script src="js/plyr.min.js"></script>
     <script>
-        // 配置项：可自定义开启/关闭各项禁止功能
-        const securityConfig = {
-            disableRightClick: true,    // 禁止右键
-            disableSave: true,          // 禁止Ctrl+S
-            disablePrint: true,         // 禁止Ctrl+P
-            disableViewSource: true,    // 禁止Ctrl+U
-            disableCopy: false,          // 禁止Ctrl+C
-            disablePaste: true,         // 禁止Ctrl+V
-            disableSelectAll: true,     // 禁止Ctrl+A
-            disableDevTools: true,      // 禁止开发者工具
-            disableKeyboard: true,      // 禁止键盘快捷键
-            disableDrag: true,          // 禁止拖拽
-            disableSelect: false        // 禁止选中文本
-        };
+        document.addEventListener('DOMContentLoaded', function () {
+            // Plyr播放器初始化
+            if (window.Plyr) {
+                const player = new Plyr('#example-player', {
+                    controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'fullscreen'],
+                    captions: {
+                        active: true,
+                        language: 'zh-CN'
+                    }
+                });
 
-        // 初始化安全限制
-        function initSecurityRestrictions() {
-            // 禁止右键菜单
-            if (securityConfig.disableRightClick) {
-                document.addEventListener('contextmenu', function(e) {
+                // 兼容iframe全屏
+                player.on('enterfullscreen', function() {
+                    if (window.self !== window.top) {
+                        alert('当前为嵌入模式，播放器全屏可能异常。建议直接访问本页面获得最佳体验。');
+                    }
+                });
+            } else {
+                console.error('Plyr未加载，请检查js/plyr.min.js路径');
+            }
+
+            // 模态框弹出兼容
+            document.getElementById('aboutBtn')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('aboutModal').style.display = 'flex';
+            });
+            document.getElementById('closeModal')?.addEventListener('click', function() {
+                document.getElementById('aboutModal').style.display = 'none';
+            });
+            document.getElementById('aboutModal')?.addEventListener('click', function(e) {
+                if (e.target === this) this.style.display = 'none';
+            });
+
+            document.querySelector('.nav-cta a')?.addEventListener('click', function(e) {
+                if (this.getAttribute('href') === '#contact') {
                     e.preventDefault();
-                });
-            }
+                    document.getElementById('contactModal').style.display = 'flex';
+                }
+            });
+            document.getElementById('closeContactModal')?.addEventListener('click', function() {
+                document.getElementById('contactModal').style.display = 'none';
+            });
+            document.getElementById('contactModal')?.addEventListener('click', function(e) {
+                if (e.target === this) this.style.display = 'none';
+            });
 
-            // 禁止选中文本
-            if (securityConfig.disableSelect) {
-                document.body.style.userSelect = 'none';
-                document.body.style.webkitUserSelect = 'none';
-            }
-
-            // 禁止拖拽
-            if (securityConfig.disableDrag) {
-                document.addEventListener('dragstart', function(e) {
-                    e.preventDefault();
-                });
-            }
-
-            // 禁止键盘快捷键
-            if (securityConfig.disableKeyboard) {
-                document.addEventListener('keydown', function(e) {
-                    // 禁止 Ctrl+S (保存)
-                    if (securityConfig.disableSave && (e.ctrlKey || e.metaKey) && e.key === 's') {
-                        e.preventDefault();
-                        return false;
-                    }
-                    
-                    // 禁止 Ctrl+P (打印)
-                    if (securityConfig.disablePrint && (e.ctrlKey || e.metaKey) && e.key === 'p') {
-                        e.preventDefault();
-                        return false;
-                    }
-                    
-                    // 禁止 Ctrl+U (查看源代码)
-                    if (securityConfig.disableViewSource && (e.ctrlKey || e.metaKey) && e.key === 'u') {
-                        e.preventDefault();
-                        return false;
-                    }
-                    
-                    // 禁止 Ctrl+C (复制)
-                    if (securityConfig.disableCopy && (e.ctrlKey || e.metaKey) && e.key === 'c') {
-                        e.preventDefault();
-                        return false;
-                    }
-                    
-                    // 禁止 Ctrl+V (粘贴)
-                    if (securityConfig.disablePaste && (e.ctrlKey || e.metaKey) && e.key === 'v') {
-                        e.preventDefault();
-                        return false;
-                    }
-                    
-                    // 禁止 Ctrl+A (全选)
-                    if (securityConfig.disableSelectAll && (e.ctrlKey || e.metaKey) && e.key === 'a') {
-                        e.preventDefault();
-                        return false;
-                    }
-                    
-                    // 禁止开发者工具相关快捷键
-                    if (securityConfig.disableDevTools) {
-                        // 禁止 F12
-                        if (e.key === 'F12') {
-                            e.preventDefault();
-                            return false;
-                        }
-                        
-                        // 禁止 Ctrl+Shift+I
-                        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'i') {
-                            e.preventDefault();
-                            return false;
-                        }
-                        
-                        // 禁止 Ctrl+Shift+J
-                        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'j') {
-                            e.preventDefault();
-                            return false;
-                        }
-                        
-                        // 禁止 Ctrl+Shift+C
-                        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'c') {
-                            e.preventDefault();
-                            return false;
-                        }
+            // 折叠列表（FAQ）兼容
+            document.querySelectorAll('.faq-question').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const answer = this.parentNode.querySelector('.faq-answer');
+                    if (answer.style.display === 'block') {
+                        answer.style.display = 'none';
+                    } else {
+                        answer.style.display = 'block';
                     }
                 });
-            }
-        }
-
-        // 页面加载完成后初始化安全限制
-        document.addEventListener('DOMContentLoaded', function() {
-            initSecurityRestrictions();
+            });
         });
-
-        // 监听页面刷新事件，同步刷新iframe
-        window.addEventListener('beforeunload', function() {
-            const resumeFrame = document.getElementById('resumeFrame');
-            if (resumeFrame) {
-                resumeFrame.src = resumeFrame.src;
-            }
-        });
-
-        function handleLoad() {
-            document.getElementById('errorMessage').style.display = 'none';
-        }
-
-        function handleError() {
-            document.getElementById('resumeFrame').style.display = 'none';
-            document.getElementById('errorMessage').style.display = 'block';
-        }
-
-        function retryLoad() {
-            const resumeFrame = document.getElementById('resumeFrame');
-            resumeFrame.style.display = 'block';
-            document.getElementById('errorMessage').style.display = 'none';
-            resumeFrame.src = resumeFrame.src;
-        }
     </script>
 </body>
-</html>
 
+</html>
