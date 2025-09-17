@@ -40,12 +40,24 @@
 </head>
 <body>
     <div class="container">
-        <iframe id="resumeFrame" src="https://link-1252777009.cos-website.ap-beijing.myqcloud.com/sub/index.html" onload="handleLoad()" onerror="handleError()"></iframe>
+        <iframe
+            id="resumeFrame"
+            src="https://link-1252777009.cos-website.ap-beijing.myqcloud.com/sub/index.html"
+            onload="handleLoad()"
+            onerror="handleError()"
+            allowfullscreen
+            allow="fullscreen"
+        ></iframe>
         <div class="error-message" id="errorMessage">
             <h2>抱歉，网页载入失败</h2>
             <p>请检查网络连接或稍后再试</p>
             <button onclick="retryLoad()">重试</button>
         </div>
+    </div>
+
+    <!-- 可选：在页面顶部增加提示 -->
+    <div style="position: absolute; top: 10px; left: 10px; z-index: 9999; background: #fffbe6; color: #333; padding: 8px 16px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); font-size: 15px;">
+        建议直接访问 <a href="index.html" style="color: #165DFF;">index.html</a> 获得最佳体验，iframe模式部分功能可能受限。
     </div>
 
     <script>
@@ -186,3 +198,4 @@
     </script>
 </body>
 </html>
+
