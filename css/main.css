@@ -1,5 +1,3 @@
-/* 只需将原html中除动画、暗夜模式变量、模态框相关的样式全部搬到这里 */
-/* 例如：*/
 :root {
     --primary: #165DFF;
     --primary-light: #E8F3FF;
@@ -1104,7 +1102,7 @@ body.dark-mode .feature-title,
 body.dark-mode .pricing-title,
 body.dark-mode .step-title,
 body.dark-mode .hero h1 {
-    color: #d1d5db !important;
+    color: #ffffff !important;
 }
 
 body.dark-mode .section-subtitle,
@@ -1242,7 +1240,7 @@ body.dark-mode .mobile-menu-link:hover {
 
 body.dark-mode .floating-btn {
     background-color: #23272f !important;
-    color: #E8F3FF !important;
+    color: #f4f5f7 !important;
 }
 
 body.dark-mode .floating-btn:hover {
