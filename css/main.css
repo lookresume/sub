@@ -1104,7 +1104,7 @@ body.dark-mode .feature-title,
 body.dark-mode .pricing-title,
 body.dark-mode .step-title,
 body.dark-mode .hero h1 {
-    color: #fff !important;
+    color: #d1d5db !important;
 }
 
 body.dark-mode .section-subtitle,
@@ -1113,7 +1113,9 @@ body.dark-mode .pricing-desc,
 body.dark-mode .pricing-period,
 body.dark-mode .stat-label,
 body.dark-mode .testimonial-text,
-body.dark-mode .author-info p,
+body.dark-mode .author-info p {
+    color: #d1d5db !important;
+}
 body.dark-mode .faq-answer,
 body.dark-mode .faq-question,
 body.dark-mode .footer-link,
@@ -1270,3 +1272,58 @@ body.dark-mode .form-textarea:focus {
     border-color: var(--primary) !important;
     box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.15) !important;
 }
+
+/* 调整 Plyr 播放器容器样式 - 更紧凑版本 */
+.case-video .card {
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.plyr__video-embed {
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* 进一步减小移动端的尺寸 */
+@media (max-width: 768px) {
+    .case-video .card {
+        padding: 8px;
+        border-radius: 6px;
+    }
+    
+    .plyr__video-embed {
+        border-radius: 4px;
+    }
+}
+
+/* 进一步减小播放器整体尺寸，可添加以下样式 
+.plyr {
+    max-height: 400px;
+}
+
+.plyr__video-wrapper {
+    max-height: 400px;
+}
+
+/* 在小屏幕上进一步减小播放器尺寸 
+@media (max-width: 768px) {
+    .plyr {
+        max-height: 250px;
+    }
+    
+    .plyr__video-wrapper {
+        max-height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .plyr {
+        max-height: 200px;
+    }
+    
+    .plyr__video-wrapper {
+        max-height: 200px;
+    }
+}
+*/
