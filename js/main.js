@@ -27,16 +27,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 导航栏滚动效果
-    window.addEventListener('scroll', () => {
-        const header = document.querySelector('header');
-        if (window.scrollY > 50) {
-            header.style.padding = '15px 0';
-            header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-        } else {
-            header.style.padding = '20px 0';
-            header.style.boxShadow = 'var(--shadow)';
-        }
-    });
+    // window.addEventListener('scroll', () => {
+    //     const header = document.querySelector('header');
+    //     if (window.scrollY > 50) {
+    //         header.style.padding = '15px 0';
+    //         header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+    //     } else {
+    //         header.style.padding = '20px 0';
+    //         header.style.boxShadow = 'var(--shadow)';
+    //     }
+    // });
 
     // 元素进入视口时的动画
     const fadeElements = document.querySelectorAll('.card, .section-title, .section-subtitle');
@@ -177,4 +177,39 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && contactModal.style.display === 'flex') closeContactModalFn();
     });
+
+    // 移动端菜单抽屉逻辑
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenuDrawer = document.getElementById('mobileMenuDrawer');
+    const mobileMenuClose = document.getElementById('mobileMenuClose');
+    if (mobileMenuBtn && mobileMenuDrawer && mobileMenuClose) {
+        mobileMenuBtn.addEventListener('click', function(e) {
+            e.stopPropagation(); // 防止冒泡到document
+            mobileMenuDrawer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        mobileMenuClose.addEventListener('click', function() {
+            mobileMenuDrawer.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        // 修正：点击屏幕其他区域关闭菜单，但排除菜单按钮本身
+        document.addEventListener('click', function(e) {
+            if (mobileMenuDrawer.classList.contains('active')) {
+                if (
+                    !mobileMenuDrawer.contains(e.target) &&
+                    e.target !== mobileMenuBtn &&
+                    !mobileMenuBtn.contains(e.target)
+                ) {
+                    mobileMenuDrawer.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+        document.querySelectorAll('.mobile-menu-link').forEach(function(link) {
+            link.addEventListener('click', function() {
+                mobileMenuDrawer.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+    }
 });

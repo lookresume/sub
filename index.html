@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>字幕工坊 - 专业视频字幕制作服务</title>
     <base href="">
     <meta name="keywords"
@@ -148,6 +148,153 @@
         body.dark-mode .modal-close {
             color: #94A3B8 !important;
         }
+
+        /* 移动端菜单抽屉样式 */
+        .mobile-menu-drawer {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 250px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 2100;
+            flex-direction: column;
+            padding: 20px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .mobile-menu-drawer.active {
+            display: flex;
+        }
+
+        .mobile-menu-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+
+        .mobile-menu-link {
+            font-size: 18px;
+            color: var(--dark);
+            text-decoration: none;
+            margin: 10px 0;
+            transition: color 0.3s;
+        }
+
+        .mobile-menu-link:hover {
+            color: var(--primary);
+        }
+
+        /* 客户案例视频与文字上下布局 */
+        @media (max-width: 768px) {
+            .case-study {
+                flex-direction: column;
+            }
+
+            .case-video {
+                width: 100%;
+                order: 1;
+            }
+
+            .case-info {
+                width: 100%;
+                order: 2;
+                margin-top: 15px;
+            }
+        }
+
+        /* 其它区域自适应布局 */
+        @media (max-width: 768px) {
+            .features,
+            .pricing {
+                flex-direction: column;
+            }
+
+            .card {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 悬浮按钮区域适配 */
+        .floating-buttons {
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .floating-btn {
+            width: 50px;
+            height: 50px;
+            font-size: 18px;
+        }
+
+        /* 字体和间距优化 */
+        body {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin: 0 0 10px 0;
+        }
+
+        p {
+            margin: 0 0 10px 0;
+        }
+
+        /* 页脚优化 */
+        footer {
+            padding: 20px 0;
+        }
+
+        .footer-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .footer-link {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .copyright {
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* 半圆角框标签样式 */
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .hero-tag {
+            padding: 8px 12px;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            color: var(--dark);
+        }
+
+        .yellow-tag {
+            background-color: #FFEB3B;
+            color: #1D2939;
+        }
     </style>
 </head>
 
@@ -175,19 +322,29 @@
                     </div>
                 </div>
 
-                <button class="mobile-menu-btn">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
                     <i class="fas fa-bars"></i>
                 </button>
             </nav>
         </div>
     </header>
+    <!-- 移动端菜单抽屉 -->
+    <div id="mobileMenuDrawer" class="mobile-menu-drawer">
+        <button class="mobile-menu-close" id="mobileMenuClose"><i class="fas fa-times"></i></button>
+        <a href="#services" class="mobile-menu-link">服务</a>
+        <a href="#process" class="mobile-menu-link">流程</a>
+        <a href="#pricing" class="mobile-menu-link">价格</a>
+        <a href="#testimonials" class="mobile-menu-link">客户评价</a>
+        <a href="#faq" class="mobile-menu-link">常见问题</a>
+        <a href="#contact" class="mobile-menu-link">联系我们</a>
+    </div>
 
     <!-- 英雄区域 -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <h1 class="fade-in">让每一段文本 跨语言界限</h1>
-                <p class="fade-in delay-100" style="color: white; font-weight: bold;">见字如面 选择我们 搭载与时俱进的技术AI</p>
+                <h1 class="fade-in" style="color: #fff;">让每段文本 跨语言界限</h1>
+                <p class="fade-in delay-100" style="color: white; font-weight: bold;">见字如面 搭载与时俱进的技术AI</p>
                 <div class="hero-buttons fade-in delay-200">
                     <a href="#process" class="btn btn-secondary">了解流程</a>
                     <a href="https://wj.qq.com/s2/14618241/d589/" target="_blank" class="btn btn-accent">问卷调查</a>
@@ -195,14 +352,14 @@
             </div>
             <!-- 半圆角框标签 -->
             <div class="hero-tags">
-                <span class="hero-tag">电影</span>
-                <span class="hero-tag">课程</span>
-                <span class="hero-tag">电视</span>
-                <span class="hero-tag">纪录</span>
-                <span class="hero-tag">动画</span>
-                <span class="hero-tag">网剧</span>
-                <span class="hero-tag">软字幕</span>
-                <span class="hero-tag">硬字幕</span>
+                <span class="hero-tag yellow-tag">电影</span>
+                <span class="hero-tag yellow-tag">课程</span>
+                <span class="hero-tag yellow-tag">电视</span>
+                <span class="hero-tag yellow-tag">纪录</span>
+                <span class="hero-tag yellow-tag">动画</span>
+                <span class="hero-tag yellow-tag">网剧</span>
+                <span class="hero-tag yellow-tag">软字幕</span>
+                <span class="hero-tag yellow-tag">硬字幕</span>
             </div>
         </div>
     </section>
@@ -801,6 +958,32 @@
                     } else {
                         answer.style.display = 'block';
                     }
+                });
+            });
+
+            // 移动端菜单抽屉逻辑
+            document.getElementById('mobileMenuBtn')?.addEventListener('click', function() {
+                document.getElementById('mobileMenuDrawer').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+            document.getElementById('mobileMenuClose')?.addEventListener('click', function() {
+                document.getElementById('mobileMenuDrawer').classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            // 新增：点击屏幕其他区域关闭菜单
+            document.addEventListener('click', function(e) {
+                const drawer = document.getElementById('mobileMenuDrawer');
+                if (drawer.classList.contains('active')) {
+                    if (!drawer.contains(e.target) && e.target.id !== 'mobileMenuBtn') {
+                        drawer.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                }
+            });
+            document.querySelectorAll('.mobile-menu-link').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    document.getElementById('mobileMenuDrawer').classList.remove('active');
+                    document.body.style.overflow = '';
                 });
             });
         });

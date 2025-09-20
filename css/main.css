@@ -116,13 +116,18 @@ header {
     right: 0;
     z-index: 1000;
     transition: var(--transition);
+    /* 移除动态padding控制 */
 }
 
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 0;
+    /* 固定高度，建议用rem或px，或比例高度 */
+    height: 64px;
+    min-height: 64px;
+    max-height: 64px;
+    padding: 0; /* 移除padding，避免撑高 */
 }
 
 .nav-container {
@@ -177,28 +182,26 @@ header {
 
 /* 头部区域 */
 .hero {
-    margin-top: 80px;
-    padding: 120px 0;
+    margin-top: 64px; /* 与导航栏高度一致，移动端也用此高度 */
+    padding: 0 0 40px 0; /* 顶部padding去除，底部padding减小 */
     background-color: var(--primary-light);
     background-image: url("../img/bg1.png");
     background-size: cover;
-    background-position: center;
+    background-position: center top;
     background-repeat: no-repeat;
     position: relative;
     overflow: hidden;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .hero {
-        background-size: cover;
-        background-position: center;
-    }
-}
-
-@media (max-width: 576px) {
-    .hero {
-        background-size: 100% auto;
-        background-position: 50% 30%;
+        margin-top: 54px; /* 移动端导航栏高度 */
+        min-height: 340px;
+        padding-bottom: 20px;
     }
 }
 
@@ -209,6 +212,15 @@ header {
     text-align: center;
     max-width: 800px;
     margin: 0 auto;
+    margin-top: 0;
+    padding-top: 32px;
+    /* 上移内容，移动端更紧凑 */
+}
+
+@media (max-width: 900px) {
+    .hero-content {
+        padding-top: 10px;
+    }
 }
 
 .hero h1 {
@@ -256,8 +268,22 @@ header {
     display: flex;
     gap: 12px;
     justify-content: center;
-    margin-top: 60px;
+    margin-top: 24px;
     flex-wrap: wrap;
+    /* 移除背景和圆角，仅做布局 */
+    background: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 900px) {
+    .hero-tags {
+        margin-top: 16px;
+        padding: 8px 4px 8px 4px;
+    }
 }
 
 .hero-tag {
@@ -266,6 +292,20 @@ header {
     border-radius: 20px;
     font-size: 14px;
     box-shadow: var(--shadow);
+    color: #222;
+    font-weight: 500;
+    display: inline-block;
+    margin: 0 2px;
+}
+
+.yellow-tag {
+    background-color: #FFB700 !important;
+    color: #222 !important;
+    border-radius: 20px;
+    padding: 8px 18px;
+    margin: 4px 4px;
+    box-shadow: var(--shadow);
+    display: inline-block;
 }
 
 /* 服务特点 */
@@ -815,6 +855,149 @@ footer {
     }
 }
 
+/* 移动端导航栏样式 */
+@media (max-width: 900px) {
+    .nav-links, .nav-cta {
+        display: none !important;
+    }
+    .mobile-menu-btn {
+        display: block !important;
+    }
+    .navbar {
+        height: 54px;
+        min-height: 54px;
+        max-height: 54px;
+        padding: 0;
+    }
+}
+
+/* 移动端菜单抽屉 */
+.mobile-menu-drawer {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 80vw;
+    max-width: 320px;
+    height: 100vh;
+    background: #fff;
+    box-shadow: var(--shadow-hover);
+    z-index: 3000;
+    flex-direction: column;
+    padding: 20px 16px 16px 16px;
+    gap: 8px;
+    animation: slideIn 0.3s ease;
+}
+.mobile-menu-drawer.active {
+    display: flex;
+}
+.mobile-menu-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: var(--gray);
+    cursor: pointer;
+}
+.mobile-menu-link {
+    color: var(--dark);
+    font-size: 17px;
+    text-decoration: none;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--gray-light);
+    transition: var(--transition);
+}
+.mobile-menu-link:last-child {
+    border-bottom: none;
+}
+.mobile-menu-link:hover {
+    color: var(--primary);
+    padding-left: 5px;
+}
+
+/* 客户案例区域移动端上下布局 */
+@media (max-width: 900px) {
+    .case-study {
+        flex-direction: column;
+        gap: 18px;
+    }
+    .case-video, .case-info {
+        width: 100% !important;
+    }
+}
+
+/* 卡片/列表区域移动端单列 */
+@media (max-width: 900px) {
+    .features, .pricing, .testimonial-grid, .more-support, .language-grid {
+        grid-template-columns: 1fr !important;
+        gap: 18px !important;
+    }
+    .support-card, .card, .pricing-card, .testimonial-item {
+        min-width: 0 !important;
+        max-width: 100% !important;
+        padding: 18px !important;
+    }
+    .section {
+        padding: 40px 0 !important;
+    }
+    .section-title {
+        font-size: 28px !important;
+    }
+    .hero h1 {
+        font-size: 32px !important;
+    }
+    .hero-content {
+        max-width: 100% !important;
+        padding: 0 8px;
+    }
+    .hero-tags {
+        margin-top: 30px !important;
+        gap: 8px !important;
+    }
+}
+
+/* 悬浮按钮区域移动端适配 */
+@media (max-width: 900px) {
+    .floating-buttons {
+        right: 10px;
+        bottom: 10px;
+        gap: 8px;
+    }
+    .floating-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 16px;
+    }
+    .wx-qrcode {
+        right: 44px;
+        width: 100px;
+        height: 100px;
+    }
+    .wechat-text {
+        right: 44px;
+        bottom: 110px;
+        font-size: 12px;
+        padding: 3px 7px;
+    }
+}
+
+/* FAQ移动端优化 */
+@media (max-width: 900px) {
+    .faq {
+        max-width: 100% !important;
+        padding: 0 8px;
+    }
+    .faq-question {
+        font-size: 16px !important;
+        padding: 14px !important;
+    }
+    .faq-answer {
+        padding: 0 14px !important;
+    }
+}
+
 /* 动画效果 */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
@@ -899,4 +1082,191 @@ footer {
 
 .wechat-btn:hover + .wx-qrcode + .wechat-text {
     display: block;
+}
+
+/* 暗夜模式字体与背景适配 */
+body.dark-mode {
+    color: #F9FAFB;
+    background-color: #1D2939;
+}
+
+body.dark-mode .card,
+body.dark-mode .support-card,
+body.dark-mode .pricing-card,
+body.dark-mode .testimonial-item {
+    background-color: #23272f;
+    color: #F9FAFB;
+}
+
+body.dark-mode .section-title,
+body.dark-mode .footer-title,
+body.dark-mode .feature-title,
+body.dark-mode .pricing-title,
+body.dark-mode .step-title,
+body.dark-mode .hero h1 {
+    color: #fff !important;
+}
+
+body.dark-mode .section-subtitle,
+body.dark-mode .feature-desc,
+body.dark-mode .pricing-desc,
+body.dark-mode .pricing-period,
+body.dark-mode .stat-label,
+body.dark-mode .testimonial-text,
+body.dark-mode .author-info p,
+body.dark-mode .faq-answer,
+body.dark-mode .faq-question,
+body.dark-mode .footer-link,
+body.dark-mode .copyright,
+body.dark-mode .footer-desc,
+body.dark-mode .footer-bottom-link,
+body.dark-mode .language-item span,
+body.dark-mode .contact-item,
+body.dark-mode .form-label,
+body.dark-mode .form-input,
+body.dark-mode .form-textarea,
+body.dark-mode .wechat-text {
+    color: #d1d5db !important;
+}
+
+body.dark-mode .feature-icon,
+body.dark-mode .contact-icon {
+    background-color: #23272f !important;
+    color: #E8F3FF !important;
+}
+
+body.dark-mode .btn,
+body.dark-mode .btn-accent {
+    color: #fff !important;
+    background-color: var(--primary) !important;
+    border: none !important;
+}
+
+body.dark-mode .btn-secondary {
+    background-color: #23272f !important;
+    color: #E8F3FF !important;
+    border: 1px solid #E8F3FF !important;
+}
+
+body.dark-mode .btn-secondary:hover {
+    background-color: #2d3748 !important;
+}
+
+body.dark-mode .btn-accent {
+    background-color: var(--secondary) !important;
+}
+
+body.dark-mode .btn-accent:hover {
+    background-color: #E67000 !important;
+}
+
+body.dark-mode .faq-item {
+    background-color: #23272f !important;
+    border-color: #344054 !important;
+}
+
+body.dark-mode .faq-question {
+    background-color: #23272f !important;
+    color: #fff !important;
+}
+
+body.dark-mode .faq-answer {
+    background-color: #23272f !important;
+    color: #d1d5db !important;
+}
+
+body.dark-mode .footer-content,
+body.dark-mode footer {
+    background-color: #18181c !important;
+    color: #fff !important;
+}
+
+body.dark-mode .footer-link,
+body.dark-mode .footer-bottom-link {
+    color: #bfc7d5 !important;
+}
+
+body.dark-mode .footer-link:hover,
+body.dark-mode .footer-bottom-link:hover {
+    color: var(--primary) !important;
+}
+
+body.dark-mode .copyright {
+    color: #bfc7d5 !important;
+}
+
+body.dark-mode .footer-desc {
+    color: #bfc7d5 !important;
+}
+
+body.dark-mode .social-link {
+    background-color: rgba(255,255,255,0.06) !important;
+    color: #E8F3FF !important;
+}
+
+body.dark-mode .social-link:hover {
+    background-color: var(--primary) !important;
+    color: #fff !important;
+}
+
+body.dark-mode .language-flag {
+    background-color: #23272f !important;
+    color: #E8F3FF !important;
+}
+
+body.dark-mode .hero {
+    background-color: #23272f !important;
+    color: #fff !important;
+}
+
+body.dark-mode .hero-tag,
+body.dark-mode .yellow-tag {
+    background-color: #3b3b3b !important;
+    color: #fff !important;
+}
+
+body.dark-mode .mobile-menu-drawer {
+    background-color: #23272f !important;
+}
+
+body.dark-mode .mobile-menu-link {
+    color: #E8F3FF !important;
+    border-bottom: 1px solid #344054 !important;
+}
+
+body.dark-mode .mobile-menu-link:hover {
+    color: var(--primary) !important;
+}
+
+body.dark-mode .floating-btn {
+    background-color: #23272f !important;
+    color: #E8F3FF !important;
+}
+
+body.dark-mode .floating-btn:hover {
+    background-color: var(--primary) !important;
+    color: #fff !important;
+}
+
+body.dark-mode .wx-qrcode {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25) !important;
+}
+
+body.dark-mode .wechat-text {
+    background-color: #23272f !important;
+    color: #E8F3FF !important;
+}
+
+/* 表单输入暗色适配 */
+body.dark-mode .form-input,
+body.dark-mode .form-textarea {
+    background-color: #18181c !important;
+    color: #E8F3FF !important;
+    border-color: #344054 !important;
+}
+
+body.dark-mode .form-input:focus,
+body.dark-mode .form-textarea:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.15) !important;
 }
