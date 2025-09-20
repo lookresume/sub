@@ -1325,3 +1325,19 @@ body.dark-mode .form-textarea:focus {
     }
 }
 */
+
+body.dark-mode .testimonials,
+body.dark-mode .process,
+body.dark-mode section {
+    background-color: #23272f !important;
+    color: #fff !important;
+}
+
+/* 顶部导航链接暗夜模式字体色 */
+body.dark-mode .nav-links a {
+    color: #7c7c7c !important;
+}
+
+body.dark-mode .nav-links a:hover {
+    color: var(--primary) !important;
+}
