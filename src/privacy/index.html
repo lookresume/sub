@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>隐私政策&服务条款</title>
+    <link rel="icon" href="favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #165DFF;
+            --dark: #1D2939;
+            --gray: #667085;
+            --light: #F9FAFB;
+            --gray-light: #E4E7EC;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.8;
+            padding-bottom: 50px;
+        }
+
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            padding: 15px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .logo img {
+            width: 28px;
+            height: 28px;
+            margin-right: 8px;
+        }
+
+        .back-link {
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        .back-link i {
+            margin-right: 5px;
+        }
+
+        main {
+            margin-top: 50px;
+        }
+
+        .section-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--gray-light);
+            margin-bottom: 30px;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gray);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .tab-button.active {
+            color: var(--primary);
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+        }
+
+        .content-wrapper {
+            display: flex;
+            gap: 30px;
+        }
+
+        .sidebar {
+            width: 250px;
+            flex-shrink: 0;
+        }
+
+        .section-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .section-item {
+            margin-bottom: 8px;
+        }
+
+        .section-link {
+            display: block;
+            padding: 8px 12px;
+            color: var(--gray);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .section-link:hover, .section-link.active {
+            background-color: rgba(22, 93, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .content-area {
+            flex-grow: 1;
+            padding: 0 10px;
+        }
+
+        .section-content {
+            display: none;
+        }
+
+        .section-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: var(--dark);
+        }
+
+        h2 {
+            font-size: 22px;
+            margin: 30px 0 15px;
+            color: var(--dark);
+        }
+
+        h3 {
+            font-size: 18px;
+            margin: 20px 0 10px;
+            color: var(--dark);
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: var(--gray);
+        }
+
+        ul {
+            margin: 15px 0 25px 25px;
+            color: var(--gray);
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .updated {
+            color: var(--gray);
+            font-size: 14px;
+            margin-bottom: 40px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        footer {
+            margin-top: 80px;
+            padding-top: 30px;
+            border-top: 1px solid var(--gray-light);
+            text-align: center;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            
+            .section-list {
+                display: flex;
+                overflow-x: auto;
+                gap: 10px;
+                padding-bottom: 10px;
+            }
+            
+            .section-item {
+                white-space: nowrap;
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                   <!-- <img src="" alt="">-->
+                    <span>服务准则</span>
+                </a>
+                <a href="https://sub.guoke.xyz/" class="back-link">
+                    <i class="fas fa-arrow-left"></i> 返回首页
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="section-tabs">
+            <button class="tab-button active" data-tab="privacy">隐私政策</button>
+            <button class="tab-button" data-tab="terms">服务条款</button>
+        </div>
+
+        <!-- 隐私政策内容 -->
+        <div class="tab-content" id="privacy-content">
+            <div class="content-wrapper">
+                <div class="sidebar">
+                    <ul class="section-list">
+                        <li class="section-item"><a href="#privacy-1" class="section-link active">适用范围</a></li>
+                        <li class="section-item"><a href="#privacy-2" class="section-link">信息收集与使用</a></li>
+                        <li class="section-item"><a href="#privacy-3" class="section-link">信息保护</a></li>
+                        <li class="section-item"><a href="#privacy-4" class="section-link">信息披露</a></li>
+                        <li class="section-item"><a href="#privacy-5" class="section-link">客户素材的知识产权与保密</a></li>
+                        <li class="section-item"><a href="#privacy-6" class="section-link">隐私政策的变更</a></li>
+                        <li class="section-item"><a href="#privacy-7" class="section-link">联系我们</a></li>
+                    </ul>
+                </div>
+
+                <div class="content-area">
+                    <h1>隐私政策</h1>
+                    <div class="updated">最后更新日期：<span class="update-date"></span></div>
+
+                    <p>（以下简称"我们"）尊重并保护所有使用服务用户的个人隐私权。为了给您提供更准确、更有个性化的服务，我们会按照本隐私权政策的规定使用和披露您的个人信息。但我们将以高度的勤勉、审慎义务对待这些信息。除本隐私权政策另有规定外，在未征得您事先许可的情况下，我们不会将这些信息对外披露或向第三方提供。</p>
+
+                    <div id="privacy-1" class="section-content active">
+                        <h2>一、适用范围</h2>
+                        <ul>
+                            <li>在您使用我们的服务时，我们可能收集的个人信息，包括但不限于您提供的姓名、联系方式、电子邮件地址等；</li>
+                            <li>在您使用服务过程中，我们可能自动收集的信息，如您的IP地址、浏览器类型、使用记录等；</li>
+                            <li>您通过我们的服务向其他方提供的共享信息，以及您使用我们的服务时所存储的信息。</li>
+                        </ul>
+                    </div>
+
+                    <div id="privacy-2" class="section-content">
+                        <h2>二、信息收集与使用</h2>
+                        <p>我们收集信息的主要目的是为您提供更好的服务，具体包括：</p>
+                        <ul>
+                            <li>为了完成字幕制作服务，我们需要收集您提供的音视频文件及相关需求信息；</li>
+                            <li>为了与您沟通项目进展，我们需要收集您的联系方式（如电话、微信、邮箱等）；</li>
+                            <li>为了改进我们的服务质量，我们可能收集您对服务的反馈信息；</li>
+                            <li>在您同意的情况下，我们可能使用您的信息进行服务推广，但您可以随时取消授权。</li>
+                        </ul>
+                    </div>
+
+                    <div id="privacy-3" class="section-content">
+                        <h2>三、信息保护</h2>
+                        <p>我们采用行业标准的安全技术和程序来保护您的个人信息和项目资料免受未授权的访问、使用或泄露，具体措施包括：</p>
+                        <ul>
+                            <li>所有客户提供的音视频文件和字幕资料均采用本地化存储和处理；</li>
+                            <li>项目团队成员签署保密协议，严格限制信息访问权限；</li>
+                            <li>项目完成并交付后，我们将根据您的要求删除所有原始文件和中间产物；</li>
+                            <li>我们的服务器采用加密技术和安全防护措施，防止数据泄露。</li>
+                        </ul>
+                    </div>
+
+                    <div id="privacy-4" class="section-content">
+                        <h2>四、信息披露</h2>
+                        <p>在如下情况下，我们可能会披露您的信息：</p>
+                        <ul>
+                            <li>事先获得您的明确授权；</li>
+                            <li>根据法律法规的规定或行政、司法机构的要求；</li>
+                            <li>为维护我们的合法权益，例如处理纠纷、防止欺诈等；</li>
+                            <li>在涉及合并、收购或破产清算时，如涉及到个人信息转让，我们会要求新的持有您个人信息的公司、组织继续受本隐私政策的约束。</li>
+                        </ul>
+                    </div>
+
+                    <div id="privacy-5" class="section-content">
+                        <h2>五、客户素材的知识产权与保密</h2>
+                        <ul>
+                            <li>您提供的所有音视频素材及相关内容的知识产权归您或原始权利人所有；</li>
+                            <li>我们仅为完成服务目的使用您的素材，不得用于任何其他用途；</li>
+                            <li>对于涉及商业秘密、专有信息的项目，我们可签署专门的保密协议；</li>
+                            <li>我们承诺不向任何第三方披露或转让您的项目内容，除非获得您的书面许可。</li>
+                        </ul>
+                    </div>
+
+                    <div id="privacy-6" class="section-content">
+                        <h2>六、隐私政策的变更</h2>
+                        <p>我们可能会不时更新本隐私政策。当政策发生变更时，我们会在网站上发布新的隐私政策，并更新"最后更新日期"。我们建议您定期查阅本隐私政策，了解最新的信息。您继续使用我们的服务，即视为您接受更新后的隐私政策。</p>
+                    </div>
+
+                    <div id="privacy-7" class="section-content">
+                        <h2>七、联系我们</h2>
+                        <p>如果您对本隐私政策有任何疑问或建议，请通过以下方式联系我们：</p>
+                        <ul>
+                            <li>见官网信息</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 服务条款内容 -->
+        <div class="tab-content" id="terms-content" style="display: none;">
+            <div class="content-wrapper">
+                <div class="sidebar">
+                    <ul class="section-list">
+                        <li class="section-item"><a href="#terms-1" class="section-link active">服务内容</a></li>
+                        <li class="section-item"><a href="#terms-2" class="section-link">服务流程与规范</a></li>
+                        <li class="section-item"><a href="#terms-3" class="section-link">双方权利与义务</a></li>
+                        <li class="section-item"><a href="#terms-4" class="section-link">知识产权</a></li>
+                        <li class="section-item"><a href="#terms-5" class="section-link">服务费用与支付</a></li>
+                        <li class="section-item"><a href="#terms-6" class="section-link">违约责任</a></li>
+                        <li class="section-item"><a href="#terms-7" class="section-link">不可抗力</a></li>
+                        <li class="section-item"><a href="#terms-8" class="section-link">争议解决</a></li>
+                        <li class="section-item"><a href="#terms-9" class="section-link">其他</a></li>
+                        <li class="section-item"><a href="#terms-10" class="section-link">联系我们</a></li>
+                    </ul>
+                </div>
+
+                <div class="content-area">
+                    <h1>服务条款</h1>
+                    <div class="updated">最后更新日期：<span class="update-date"></span></div>
+
+                    <p>欢迎使用相关服务（以下简称"服务"）。本服务条款（以下简称"条款"）是您与我们之间关于使用我们服务的法律协议。在使用我们的服务前，请您仔细阅读本条款。您使用我们的服务即表示您同意本条款的全部内容。</p>
+
+                    <div id="terms-1" class="section-content active">
+                        <h2>一、服务内容</h2>
+                        <p>我们提供的服务包括但不限于：</p>
+                        <ul>
+                            <li>字幕翻译服务（包括中英互译及其他多语言翻译）；</li>
+                            <li>时间轴调整与校对；</li>
+                            <li>字幕格式转换（SRT、ASS、VTT等）；</li>
+                            <li>CC字幕制作与内嵌；</li>
+                            <li>视频压制、剪辑与合成；</li>
+                            <li>根据客户需求提供的其他相关服务。</li>
+                        </ul>
+                    </div>
+
+                    <div id="terms-2" class="section-content">
+                        <h2>二、服务流程与规范</h2>
+                        <ul>
+                            <li><span class="highlight">需求提交</span>：您需提供清晰的音视频文件及具体需求说明（包括翻译语言、格式要求、交付时间等）；</li>
+                            <li><span class="highlight">报价确认</span>：我们根据项目复杂度、时长、语言对、交付周期等因素提供报价，经您确认后生效；</li>
+                            <li><span class="highlight">预付款</span>：部分项目可能需要支付30%-50%的预付款，具体比例双方协商确定；</li>
+                            <li><span class="highlight">制作过程</span>：我们将按照约定要求进行制作，重大修改可能导致交付时间延长；</li>
+                            <li><span class="highlight">交付验收</span>：我们通过约定方式交付成品，您应在收到后3个工作日内完成验收；</li>
+                            <li><span class="highlight">尾款支付</span>：验收合格后，您需支付剩余款项；</li>
+                            <li><span class="highlight">修改服务</span>：我们提供免费修改服务（限合理范围内，因需求变更导致的重大修改可能产生额外费用）。</li>
+                        </ul>
+                    </div>
+
+                    <div id="terms-3" class="section-content">
+                        <h2>三、双方权利与义务</h2>
+                        <h3>（一）客户的权利与义务</h3>
+                        <ul>
+                            <li>保证所提供的音视频素材及相关内容不侵犯任何第三方知识产权或其他合法权益；</li>
+                            <li>提供清晰、准确的需求说明，及时回复我们的咨询；</li>
+                            <li>按时支付服务费用；</li>
+                            <li>对验收后的成品享有约定范围内的使用权；</li>
+                            <li>如对服务成果有异议，应在验收期内提出，逾期视为认可。</li>
+                        </ul>
+
+                        <h3>（二）我们的权利与义务</h3>
+                        <ul>
+                            <li>按照约定的质量标准和时间交付服务成果；</li>
+                            <li>对客户提供的素材和信息予以保密（详见隐私政策）；</li>
+                            <li>提供合理的售后服务和修改支持；</li>
+                            <li>如客户未按时支付费用或提供必要信息，有权暂停服务或顺延交付时间；</li>
+                            <li>在获得客户许可的情况下，可将完成的案例用于非商业性的宣传展示。</li>
+                        </ul>
+                    </div>
+
+                    <div id="terms-4" class="section-content">
+                        <h2>四、知识产权</h2>
+                        <ul>
+                            <li>客户提供的所有素材的知识产权归客户或原始权利人所有；</li>
+                            <li>我们制作的字幕成品的知识产权，在客户支付全部费用后归客户所有；</li>
+                            <li>未经客户书面许可，我们不得将字幕成品用于本条款约定以外的其他用途；</li>
+                            <li>客户保证其使用服务成果的行为符合相关法律法规，不侵犯任何第三方权益。</li>
+                        </ul>
+                    </div>
+
+                    <div id="terms-5" class="section-content">
+                        <h2>五、服务费用与支付</h2>
+                        <ul>
+                            <li>服务费用根据项目具体情况确定，以双方确认的报价为准；</li>
+                            <li>支付方式包括银行转账、微信支付、支付宝等双方认可的方式；</li>
+                            <li>逾期支付的，每逾期一日应按未支付金额的0.5%支付滞纳金；</li>
+                            <li>因客户需求变更导致服务内容增加的，应支付相应的额外费用。</li>
+                        </ul>
+                    </div>
+
+                    <div id="terms-6" class="section-content">
+                        <h2>六、违约责任</h2>
+                        <ul>
+                            <li>如我们未能按时交付服务成果且无合理理由，客户有权要求减免费用或解除合同；</li>
+                            <li>如客户提供的素材存在权利瑕疵导致我们遭受损失的，客户应承担赔偿责任；</li>
+                            <li>任何一方违反本条款约定给对方造成损失的，应承担相应的赔偿责任。</li>
+                        </ul>
+                    </div>
+
+                    <div id="terms-7" class="section-content">
+                        <h2>七、不可抗力</h2>
+                        <p>因地震、台风、洪水、战争、政策调整等不可抗力因素导致无法履行本条款的，遭遇不可抗力的一方应及时通知对方，并在合理期限内提供证明。双方可根据不可抗力的影响程度，协商决定是否解除合同、部分免除责任或延期履行。</p>
+                    </div>
+
+                    <div id="terms-8" class="section-content">
+                        <h2>八、争议解决</h2>
+                        <p>因本条款引起的或与本条款有关的任何争议，双方应首先通过友好协商解决；协商不成的，任何一方均有权向我们所在地有管辖权的人民法院提起诉讼。</p>
+                    </div>
+
+                    <div id="terms-9" class="section-content">
+                        <h2>九、其他</h2>
+                        <ul>
+                            <li>本条款的任何修改须经双方书面确认；</li>
+                            <li>本条款未尽事宜，可由双方另行协商签订补充协议；</li>
+                            <li>本条款自您确认接受之日起生效，有效期至服务完成且双方权利义务结清为止。</li>
+                        </ul>
+                    </div>
+
+                    <div id="terms-10" class="section-content">
+                        <h2>十、联系我们</h2>
+                        <p>如果您对本服务条款有任何疑问，请通过以下方式联系我们：</p>
+                        <ul>
+                            <li>见官网信息</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="container">
+        <p>&copy; 2018-至今 版权所有 | 京ICP备20250916号</p>
+    </footer>
+
+    <script>
+        // 设置最后更新日期为当前系统日期
+        function setUpdateDates() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const dateString = `${year}年${month}月${day}日`;
+            
+            document.querySelectorAll('.update-date').forEach(el => {
+                el.textContent = dateString;
+            });
+        }
+        
+        // 页面加载时设置日期
+        setUpdateDates();
+        
+        // 切换标签页
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // 移除所有活动状态
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.style.display = 'none');
+                
+                // 添加当前活动状态
+                button.classList.add('active');
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(`${tabId}-content`).style.display = 'block';
+                
+                // 重置当前标签页的章节选中状态
+                const sectionLinks = document.querySelectorAll(`#${tabId}-content .section-link`);
+                const sectionContents = document.querySelectorAll(`#${tabId}-content .section-content`);
+                
+                sectionLinks.forEach(link => link.classList.remove('active'));
+                sectionLinks[0].classList.add('active');
+                
+                sectionContents.forEach(content => content.classList.remove('active'));
+                // 显示从第一个开始的所有章节
+                sectionContents.forEach(content => content.classList.add('active'));
+                
+                // 滚动到内容区域顶部
+                document.querySelector(`#${tabId}-content .content-area`).scrollTop = 0;
+            });
+        });
+        
+        // 章节导航 - 点击后显示当前及后续所有章节
+        document.querySelectorAll('.section-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // 获取当前标签页
+                const tabId = document.querySelector('.tab-button.active').getAttribute('data-tab');
+                const sectionLinks = document.querySelectorAll(`#${tabId}-content .section-link`);
+                const sectionContents = document.querySelectorAll(`#${tabId}-content .section-content`);
+                
+                // 获取当前点击的章节索引
+                const currentIndex = Array.from(sectionLinks).indexOf(link);
+                
+                // 更新导航链接的活动状态
+                sectionLinks.forEach((l, index) => {
+                    // 只激活当前点击的链接
+                    if (index === currentIndex) {
+                        l.classList.add('active');
+                    } else {
+                        l.classList.remove('active');
+                    }
+                });
+                
+                // 显示当前及所有后续章节内容
+                sectionContents.forEach((content, index) => {
+                    if (index >= currentIndex) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+                
+                // 滚动到内容区域顶部
+                document.querySelector(`#${tabId}-content .content-area`).scrollTop = 0;
+            });
+        });
+        
+        // 初始加载时显示所有隐私政策章节
+        window.addEventListener('load', () => {
+            const activeTab = document.querySelector('.tab-button.active').getAttribute('data-tab');
+            const sectionContents = document.querySelectorAll(`#${activeTab}-content .section-content`);
+            sectionContents.forEach(content => content.classList.add('active'));
+        });
+    </script>
+</body>
+</html>
