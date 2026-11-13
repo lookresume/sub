@@ -2,27 +2,38 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 外层壳页同样关掉双击缩放：iframe 内的点击延迟判断取自最外层视口，
+         外壳允许缩放时，内页即使写了 touch-action:manipulation 也可能被判成双击 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>畅影-字幕服务影视制作</title>
     <style>
-        body, html {
+        /* 原文件这里是两段互相冲突的样式（overflow:hidden 又 overflow:auto、
+           .container 又是 100% 又是 min-height:100vh），浏览器要覆盖一遍规则、
+           移动端还会因为 100vh 随地址栏变化反复重排。合并成一份。 */
+        html, body {
             margin: 0;
             padding: 0;
+            width: 100%;
             height: 100%;
-            overflow: hidden;
+            overflow: hidden;              /* 外壳不滚动，滚动交给 iframe，避免"两层滚动"抢手势 */
+            overscroll-behavior: none;     /* 去掉 iOS 的橡皮筋回弹 */
+            -webkit-tap-highlight-color: transparent;
+            -webkit-text-size-adjust: 100%;
         }
         .container {
             position: relative;
             width: 100%;
             height: 100%;
+            height: 100dvh;                /* 地址栏收起时自动跟随，不会留白或被裁切 */
         }
         #resumeFrame {
             position: absolute;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100%;
             height: 100%;
             border: none;
+            display: block;
+            background: #F9FAFB;
         }
         .error-message {
             display: none;
@@ -34,7 +45,7 @@
             padding: 20px;
             background-color: #f8f9fa;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -172,13 +183,9 @@
             initSecurityRestrictions();
         });
 
-        // 监听页面刷新事件，同步刷新iframe
-        window.addEventListener('beforeunload', function() {
-            const resumeFrame = document.getElementById('resumeFrame');
-            if (resumeFrame) {
-                resumeFrame.src = resumeFrame.src;
-            }
-        });
+        // 注意：原来这里有一个 beforeunload 监听，会把 iframe 的 src 重新赋一次，
+        // 等于页面卸载时再触发一次内页加载；在手机上表现为"返回/刷新后白屏一会儿"，
+        // 而且会打断内页正在进行的交互，已移除。
 
         function handleLoad() {
             document.getElementById('errorMessage').style.display = 'none';
